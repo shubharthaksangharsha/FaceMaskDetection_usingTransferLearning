@@ -1,3 +1,4 @@
+#By Shubharthak
 # USAGE
 # python detect_mask_video.py
 
@@ -17,10 +18,24 @@ from send_mail import sendEmail
 from speaking import speak
 from gtts import gTTS
 import speech_recognition as sr
+import datetime
 i = 1
 username = os.environ.get('mymail')
 password = os.environ.get('mypass')
-speak('Good Morning Sir, This is a Face Mask Detection Program. We will recognize the person whether he or she is wearing mask or not. Please wear a mask.')
+
+def wishMe():
+    '''
+    It wishes the User according the time and return the file which played using os.system()
+    '''
+    hour = int(datetime.datetime.now().hour)
+    if hour >= 0 and hour < 12:
+        speak("Good Morning!")
+    elif hour >= 12 and hour < 18:
+        speak("Good Afternoon! ")
+    else:
+        speak("Good Evening!")
+    speak('This is a Face Mask Detection Program. We will recognize the person whether he or she is wearing mask or not. Please wear a mask.')
+    
 def detect_and_predict_mask(frame, faceNet, maskNet):
     # grab the dimensions of the frame and then construct a blob
     # from it
@@ -102,6 +117,7 @@ ap.add_argument("-c", "--confidence", type=float, default=0.5,
                 help="minimum probability to filter weak detections")
 args = vars(ap.parse_args())
 
+wishMe()
 # load our serialized face detector model from disk
 print("[INFO] loading face detector model...")
 prototxtPath = os.path.sep.join([args["face"], "deploy.prototxt"])
